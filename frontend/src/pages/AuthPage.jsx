@@ -4,9 +4,11 @@ import { FileText, Eye, EyeOff, Loader2, AlertCircle, User, Mail, Lock } from 'l
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
 export default function AuthPage() {
   const { login } = useAuth();
-  const [tab, setTab]           = useState('login');     // 'login' | 'register'
+  const [tab, setTab]           = useState('login');
   const [form, setForm]         = useState({ name: '', email: '', password: '' });
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading]   = useState(false);
@@ -18,7 +20,9 @@ export default function AuthPage() {
     e.preventDefault();
     setLoading(true); setError('');
     try {
-      const endpoint = tab === 'login' ? '/api/auth/login' : '/api/auth/register';
+      const endpoint = tab === 'login'
+        ? `${API_BASE}/api/auth/login`
+        : `${API_BASE}/api/auth/register`;
       const payload  = tab === 'login'
         ? { email: form.email, password: form.password }
         : { name: form.name, email: form.email, password: form.password };
@@ -33,7 +37,7 @@ export default function AuthPage() {
   };
 
   const handleGoogle = () => {
-    window.location.href = '/api/auth/google';
+    window.location.href = `${API_BASE}/api/auth/google`;
   };
 
   return (

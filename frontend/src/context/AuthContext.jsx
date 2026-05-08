@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('token');
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      axios.get('/api/auth/me')
+      axios.get(`${import.meta.env.VITE_API_URL || ''}/api/auth/me`)
         .then(r => setUser(r.data.user))
         .catch(() => {
           localStorage.removeItem('token');
