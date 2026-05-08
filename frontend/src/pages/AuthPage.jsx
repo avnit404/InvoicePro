@@ -7,12 +7,12 @@ import { useAuth } from '../context/AuthContext';
 const API_BASE = import.meta.env.VITE_API_URL || '';
 
 export default function AuthPage() {
-  const { login } = useAuth();
+  const { login, oauthError, setOauthError } = useAuth();
   const [tab, setTab]           = useState('login');
   const [form, setForm]         = useState({ name: '', email: '', password: '' });
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading]   = useState(false);
-  const [error, setError]       = useState('');
+  const [error, setError]       = useState(oauthError || '');
 
   const update = (k, v) => { setForm(p => ({ ...p, [k]: v })); setError(''); };
 

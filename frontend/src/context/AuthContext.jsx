@@ -4,8 +4,9 @@ import axios from 'axios';
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser]       = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser]         = useState(null);
+  const [loading, setLoading]   = useState(true);
+  const [oauthError, setOauthError] = useState('');
 
   useEffect(() => {
     // Google OAuth callback puts ?token=xxx in URL
@@ -18,6 +19,7 @@ export function AuthProvider({ children }) {
       window.history.replaceState({}, '', window.location.pathname);
     }
     if (urlError) {
+      setOauthError(`Google login failed: ${urlError}`);
       window.history.replaceState({}, '', window.location.pathname);
     }
 
@@ -49,7 +51,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, oauthError, setOauthError }}>
       {children}
     </AuthContext.Provider>
   );

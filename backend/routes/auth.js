@@ -94,8 +94,9 @@ router.get('/google/callback', async (req, res) => {
 
     res.redirect(`${FRONTEND}?token=${signToken(user._id)}`);
   } catch (e) {
-    console.error('Google OAuth error:', e.message);
-    res.redirect(`${FRONTEND}?auth_error=google_failed`);
+    const detail = e.response?.data?.error || e.message || 'unknown';
+    console.error('Google OAuth error:', detail, e.response?.data);
+    res.redirect(`${FRONTEND}?auth_error=${encodeURIComponent(detail)}`);
   }
 });
 
