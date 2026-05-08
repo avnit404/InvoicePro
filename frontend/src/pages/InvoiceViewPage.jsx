@@ -9,7 +9,7 @@ export default function InvoiceViewPage({ invoiceId }) {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get(`/api/invoices/view/${invoiceId}`)
+    axios.get(`${import.meta.env.VITE_API_URL || ''}/api/invoices/view/${invoiceId}`)
       .then(r => setInvoice(r.data))
       .catch(() => setError('Invoice not found or no longer available.'))
       .finally(() => setLoading(false));
